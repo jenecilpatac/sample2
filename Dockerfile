@@ -1,7 +1,7 @@
 # Use the official Nginx image from the Docker Hub
 FROM nginx:alpine
 
-COPY default.conf /etc/nginx/conf.d/default.conf
+#COPY default.conf /etc/nginx/conf.d/default.conf
 
 COPY index.html /usr/share/nginx/html/index.html
 COPY js /usr/share/nginx/html/js
