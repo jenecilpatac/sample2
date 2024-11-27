@@ -18,6 +18,7 @@ services:
       DB_DATABASE: coordinator_postgres
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
+      PGPASSWORD: postgres
 
   # Citus Worker Nodes (No ports needed)
   worker1:
