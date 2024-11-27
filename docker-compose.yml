@@ -12,6 +12,49 @@ services:
       - "5002"  # Expose port 80 for the NGINX load balancer to access
     deploy:
       replicas: 3  # Scale to 3 replicas of the HTML page service
+    depends_on:
+      - master
+    environment:
+      DB_HOST: master  # Use master node as the DB host
+      DB_PORT: 5432
+      DB_DATABASE: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+
+  # Citus Master Node
+  master:
+    image: citusdata/citus:latest
+    container_name: citus_master
+    ports:
+      - "5432:5432"  # Expose port for external access
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    command: ["citus", "master"]
+
+  # Citus Worker Nodes (No ports needed)
+  worker1:
+    image: citusdata/citus:latest
+    container_name: citus_worker1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    command: ["citus", "worker"]
+    depends_on:
+      - master
+
+  worker2:
+    image: citusdata/citus:latest
+    container_name: citus_worker2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    command: ["citus", "worker"]
+    depends_on:
+      - master
 
   nginx:
     image: nginx:alpine  # Use the official NGINX image
