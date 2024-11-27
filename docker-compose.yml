@@ -59,3 +59,7 @@ services:
 networks:
   web-network:
     driver: bridge
+
+volumes:  
+  worknode1-data:
+  worknode2-data:
