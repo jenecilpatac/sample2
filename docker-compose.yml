@@ -29,7 +29,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: worker_db1
     command: ["postgres", "-c", "shared_preload_libraries=citus"] 
-
+    networks:
+      - web-network
 
   worker2:
     image: citusdata/citus:latest
@@ -39,6 +40,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: worker_db2
     command: ["postgres", "-c", "shared_preload_libraries=citus"] 
+    networks: 
+      - web-network
    
 
   nginx:
