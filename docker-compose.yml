@@ -13,7 +13,7 @@ services:
     deploy:
       replicas: 3  # Scale to 3 replicas of the HTML page service
     environment:
-      POSTGRES_HOST:  172.17.0.1 # Use master node as the DB host
+      POSTGRES_HOST:  10.10.2.194 # Use master node as the DB host
       POSTGRES_PORT: 5432
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -26,10 +26,12 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: worker_db1
+      POSTGRES_HOST: 10.10.2.194
     command: ["postgres", "-c", "shared_preload_libraries=citus"] 
     networks:
       - web-network
+    volumes:
+      - worknode1-data:/var/lib/postgresql/data
 
   worker2:
     image: citusdata/citus:latest
@@ -37,10 +39,12 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: worker_db2
+      POSTGRES_HOST: 10.10.2.194
     command: ["postgres", "-c", "shared_preload_libraries=citus"] 
     networks: 
       - web-network
+    volumes:
+      - worknode2-data:/var/lib/postgresql/data
    
 
   nginx:
