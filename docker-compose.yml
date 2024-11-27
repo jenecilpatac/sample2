@@ -13,12 +13,11 @@ services:
     deploy:
       replicas: 3  # Scale to 3 replicas of the HTML page service
     environment:
-      DB_HOST:  172.17.0.1 # Use master node as the DB host
-      DB_PORT: 5432
-      DB_DATABASE: coordinator_postgres
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
-      PGPASSWORD: postgres
+      POSTGRES_HOST:  172.17.0.1 # Use master node as the DB host
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: coordinator_postgres
 
   # Citus Worker Nodes (No ports needed)
   worker1:
