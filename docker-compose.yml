@@ -27,6 +27,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: coordinator_postgres
+      POSTGRES_HOST: 10.10.2.194
     command: ["postgres", "-c", "shared_preload_libraries=citus"] 
     networks:
       - web-network
@@ -40,6 +41,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: coordinator_postgres
+      POSTGRES_HOST: 10.10.2.194
     command: ["postgres", "-c", "shared_preload_libraries=citus"] 
     networks: 
       - web-network
