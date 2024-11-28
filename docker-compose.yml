@@ -19,6 +19,16 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: coordinator_postgres
 
+  coordinator:
+    image: postgres:latest
+    container_name: coord
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    networks:
+      - web-network
+
   # Citus Worker Nodes (No ports needed)
   worker1:
     image: citusdata/citus:latest
