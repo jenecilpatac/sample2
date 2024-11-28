@@ -13,21 +13,21 @@ services:
     deploy:
       replicas: 3  # Scale to 3 replicas of the HTML page service
     environment:
-      PGHOST:  10.10.2.194 # Use master node as the DB host
-      PGPORT: 5432
-      PGUSER: postgres
-      PGPASSWORD: postgres
-      PGDB: coordinator_postgres
+      POSTGRES_HOST:  10.10.2.194 # Use master node as the DB host
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: coordinator_postgres
 
   # Citus Worker Nodes (No ports needed)
   worker1:
     image: citusdata/citus:latest
     container_name: citus_worker1
     environment:
-      PGUSER: postgres
-      PGPASSWORD: postgres
-      PGDB: coordinator_postgres
-      PGHOST: 10.10.2.194
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: coordinator_postgres
+      POSTGRES_HOST: 10.10.2.194
     command: ["postgres", "-c", "shared_preload_libraries=citus"] 
     networks:
       - web-network
@@ -38,10 +38,10 @@ services:
     image: citusdata/citus:latest
     container_name: citus_worker2
     environment:
-      PGUSER: postgres
-      PGPASSWORD: postgres
-      PGDB: coordinator_postgres
-      PGHOST: 10.10.2.194
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: coordinator_postgres
+      POSTGRES_HOST: 10.10.2.194
     command: ["postgres", "-c", "shared_preload_libraries=citus"] 
     networks: 
       - web-network
