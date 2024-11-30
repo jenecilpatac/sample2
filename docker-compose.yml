@@ -65,7 +65,7 @@ services:
 
 networks:
   citus_network:
-    external: true
+    driver: bridge
 
 volumes:  
   worknode1-data:
