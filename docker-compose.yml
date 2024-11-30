@@ -22,7 +22,7 @@ services:
 
   # Citus Worker Nodes (No ports needed)
   worker1:
-    image: citusdata/latest
+    image: citusdata/citus
     container_name: citus_worker1
     environment:
       POSTGRES_PASSWORD: postgres
@@ -38,7 +38,7 @@ services:
       - worknode1-data:/var/lib/postgresql/data
 
   worker2:
-    image: citusdata/latest
+    image: citusdata/citus
     container_name: citus_worker2
     environment:
       POSTGRES_PASSWORD: postgres
