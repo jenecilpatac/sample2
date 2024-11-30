@@ -5,7 +5,7 @@ services:
     build:
       context: .  # Build the HTML page from the Dockerfile in the current directory
     networks:
-      - web-network
+      - citus_network
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf
     expose:
@@ -22,30 +22,34 @@ services:
 
   # Citus Worker Nodes (No ports needed)
   worker1:
-    image: citusdata/citus:latest
+    image: citusdata/citus
     container_name: citus_worker1
     environment:
-      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: worker_postgres
-      POSTGRES_HOST_AUTH_METHOD: md5
-    command: ["postgres", "-c", "shared_preload_libraries=citus"] 
+      POSTGRES_USER: postgres
+      POSTGRES_DB: coordinator_postgres
+    ports:
+      - "5433:5432"  # Expose to host on port 5433
     networks:
-      - web-network
+      - citus_network
+    restart: always
+    command: ["postgres", "-c", "shared_preload_libraries=citus"] 
     volumes:
       - worknode1-data:/var/lib/postgresql/data
 
   worker2:
-    image: citusdata/citus:latest
+    image: citusdata/citus
     container_name: citus_worker2
     environment:
-      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: worker_postgres
-      POSTGRES_HOST_AUTH_METHOD: md5
+      POSTGRES_USER: postgres
+      POSTGRES_DB: coordinator_postgres
+    ports:
+      - "5434:5432"  # Expose to host on port 5434
+    networks:
+      - citus_network
+    restart: always
     command: ["postgres", "-c", "shared_preload_libraries=citus"] 
-    networks: 
-      - web-network
     volumes:
       - worknode2-data:/var/lib/postgresql/data
    
@@ -57,11 +61,11 @@ services:
     ports:
       - "5002:5002"  # Expose port 5003 on the host, forwarding to port 5003 on the container
     networks:
-      - web-network
+      - citus_network
 
 networks:
-  web-network:
-    driver: bridge
+  citus_network:
+    external: true
 
 volumes:  
   worknode1-data:
