@@ -12,46 +12,46 @@ services:
       - "5002"  # Expose port 80 for the NGINX load balancer to access
     deploy:
       replicas: 3  # Scale to 3 replicas of the HTML page service
-    environment:
-      POSTGRES_HOST:  10.10.2.194 # Use master node as the DB host
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: coordinator_postgres
-      POSTGRES_HOST_AUTH_METHOD: md5
+  #   environment:
+  #     POSTGRES_HOST:  10.10.2.194 # Use master node as the DB host
+  #     POSTGRES_PORT: 5432
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: coordinator_postgres
+  #     POSTGRES_HOST_AUTH_METHOD: md5
 
-  # Citus Worker Nodes (No ports needed)
-  worker1:
-    image: citusdata/citus
-    container_name: citus_worker1
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: coordinator_postgres
-    ports:
-      - "5433:5432"  # Expose to host on port 5433
-    networks:
-      - citus_network
-    restart: always
-    command: ["postgres", "-c", "shared_preload_libraries=citus"] 
-    volumes:
-      - worknode1-data:/var/lib/postgresql/data
+  # # Citus Worker Nodes (No ports needed)
+  # worker1:
+  #   image: citusdata/citus
+  #   container_name: citus_worker1
+  #   environment:
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: coordinator_postgres
+  #   ports:
+  #     - "5433:5432"  # Expose to host on port 5433
+  #   networks:
+  #     - citus_network
+  #   restart: always
+  #   command: ["postgres", "-c", "shared_preload_libraries=citus"] 
+  #   volumes:
+  #     - worknode1-data:/var/lib/postgresql/data
 
-  worker2:
-    image: citusdata/citus
-    container_name: citus_worker2
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: coordinator_postgres
-    ports:
-      - "5434:5432"  # Expose to host on port 5434
-    networks:
-      - citus_network
-    restart: always
-    command: ["postgres", "-c", "shared_preload_libraries=citus"] 
-    volumes:
-      - worknode2-data:/var/lib/postgresql/data
+  # worker2:
+  #   image: citusdata/citus
+  #   container_name: citus_worker2
+  #   environment:
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: coordinator_postgres
+  #   ports:
+  #     - "5434:5432"  # Expose to host on port 5434
+  #   networks:
+  #     - citus_network
+  #   restart: always
+  #   command: ["postgres", "-c", "shared_preload_libraries=citus"] 
+  #   volumes:
+  #     - worknode2-data:/var/lib/postgresql/data
    
 
   nginx:
