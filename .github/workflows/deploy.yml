@@ -20,7 +20,7 @@ jobs:
 
     - name: Deploy to server
       run: |
-        ssh -o StrictHostKeyChecking=no user@10.10.2.4 << 'EOF'
+        ssh -o StrictHostKeyChecking=no smct@185.199.52.40 << 'EOF'
           cd /systems/sample2
           git pull
           docker-compose down
