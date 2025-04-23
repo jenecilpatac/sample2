@@ -14,7 +14,7 @@ services:
       replicas: 3  # Scale to 3 replicas of the HTML page service
     environment:
       - MAINTENANCE_MODE=true  # Set to true for maintenance mode
-    command: ["sh", "-c", "if [ \"$MAINTENANCE_MODE\" = \"true\" ]; then node maintenance.mjs; else serve -s dist -l 5002; fi"]
+    command: ["sh", "-c", "if [ \"$MAINTENANCE_MODE\" = \"true\" ]; then node maintenance.mjs; fi"]
 
   #   environment:
   #     POSTGRES_HOST:  10.10.2.194 # Use master node as the DB host
